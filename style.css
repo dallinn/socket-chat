@@ -53,13 +53,24 @@ form#chat button {
    border: none;
    padding: 10px;
 }
+#clients {
+   list-style-type: none;
+    border: 1px solid black;
+    border-top: none;
+    display: block;
+    padding: 5px;
+    margin: 0 10px;
+}
+#clients li:nth-child(even) {
+    background: #eee;
+}
 #messages {
    list-style-type: none;
    margin: 0;
    padding: 0;
 }
 #messages li {
-   padding: 5px 10px;
+    padding: 5px 10px;
 }
 #messages li.me {
    background: #eee;

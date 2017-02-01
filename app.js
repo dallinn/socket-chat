@@ -22,6 +22,7 @@ io.on('connection', function(socket){
     });
     socket.on('getClients', function(){
         console.log(clients);
+        socket.emit('clients', clients);
     });
     socket.on('disconnect', function() {
         clients.splice(clients.indexOf(socket['username']), 1);

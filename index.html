@@ -6,13 +6,14 @@
     </head>
     <body>
         <div id="header" style="display:none">
-            <button id="getClients">Get client list</button>
+            <button id="getClients">Toggle client list</button>
         </div>
         <form id="user" action="">
             <input type="text" id="username" placeholder="Who are you?" required>
             <input type="submit" value="Enter chat room">
         </form>
         <div class="container" style="display:none">
+            <ul id="clients" style="display:none"></ul>
             <ul id="messages"></ul>
             <form id="chat" action="">
                 <input id="m" autocomplete="off" /><button>Send</button>
@@ -38,6 +39,11 @@
                 return false;
             });
             $('#getClients').click(function(){
+                if ($('#clients').is(":hidden")) {
+                    $('#clients').show();
+                } else {
+                    $('#clients').hide();
+                }
                 socket.emit('getClients');
             });
             socket.on('username', function(usr){
@@ -50,6 +56,12 @@
                 } else {
                     $('#messages').append("<li><span>" + msg.username + ":</span> " + msg.message + "</li>");
                 }
+            });
+            socket.on('clients', function(clients){
+                $('#clients').empty();
+                $.each(clients, function(index, value) {
+                    $('#clients').append("<li>" + value + "</li>"); 
+                });
             });
         </script>
     </body>
