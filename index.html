@@ -16,7 +16,7 @@
             <ul id="clients" style="display:none"></ul>
             <ul id="messages"></ul>
         </div>
-        <form id="chat" action="">
+        <form id="chat" action="" style="display:none">
             <input id="m" autocomplete="off" required><button>Send</button>
         </form>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -25,12 +25,15 @@
             var socket = io();
             var username;
             $('#user').submit(function(){
+                //TODO cleanup all this .fadeIn
+                //TODO proper scrolling when text chat reaches chat form
                 var un = $('#username').val();
                 socket.emit('username', un);
                 $('#header').fadeIn();
                 $(this).empty().append("<p id='welcome'>Welcome, " + un + ".</p>").fadeOut();
                 $('#username').val('');
                 $('.container').fadeIn();
+                $('#chat').fadeIn();
                 $('#m').focus();
                 return false;
             });
