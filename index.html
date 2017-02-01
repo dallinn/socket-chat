@@ -5,8 +5,9 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <div class="header"></div>
         <form id="user" action="">
-            <input type="text" id="username" placeholder="Who are you?">
+            <input type="text" id="username" placeholder="Who are you?" required>
             <input type="submit" value="Enter chat room">
         </form>
         <ul id="messages"></ul>
@@ -17,11 +18,13 @@
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             var socket = io();
+            var username;
             $('#user').submit(function(){
                 socket.emit('username', $('#username').val());
                 $('#username').val('');
                 $('#chat').fadeIn();
                 $(this).fadeOut();
+                $('#m').focus();
                 return false;
             });
             $('#chat').submit(function(){
@@ -29,8 +32,15 @@
                 $('#m').val('');
                 return false;
             });
+            socket.on('username', function(usr){
+                username = usr;
+            });
             socket.on('chat message', function(msg){
-                $('#messages').append("<li><span>" + msg.username + ":</span> " + msg.message + "</li>");
+                if (msg.username == username) {
+                    $('#messages').append("<li class='me'>" + msg.message + "</li>");
+                } else {
+                    $('#messages').append("<li><span>" + msg.username + ":</span> " + msg.message + "</li>");
+                }
             });
         </script>
     </body>

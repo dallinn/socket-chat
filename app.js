@@ -12,7 +12,8 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
     socket.on('username', function(usr){
         socket['username'] = usr;
-        console.log(socket['username']);
+        socket.emit('username', socket['username']);
+        //console.log(socket['username']);
     });
     socket.on('chat message', function(msg){
         io.emit('chat message',{ message: msg, username: socket['username'] });

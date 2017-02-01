@@ -52,8 +52,9 @@ form#chat button {
 #messages li {
    padding: 5px 10px;
 }
-#messages li:nth-child(odd) {
+#messages li.me {
    background: #eee;
+   text-align: right;
 }
 #messages span {
    font-weight: 700;
