@@ -5,14 +5,15 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="header"></div>
+        <div id="header" style="display:none">
+            <button id="getClients">Get client list</button>
+        </div>
         <form id="user" action="">
             <input type="text" id="username" placeholder="Who are you?" required>
             <input type="submit" value="Enter chat room">
         </form>
         <div class="container" style="display:none">
             <ul id="messages"></ul>
-            <button id="getClients">Get client list</button>
             <form id="chat" action="">
                 <input id="m" autocomplete="off" /><button>Send</button>
             </form>
@@ -25,8 +26,9 @@
             $('#user').submit(function(){
                 socket.emit('username', $('#username').val());
                 $('#username').val('');
-                $('.container').fadeIn();
+                $('#header').fadeIn();
                 $(this).fadeOut();
+                $('.container').fadeIn();
                 $('#m').focus();
                 return false;
             });
@@ -40,7 +42,7 @@
             });
             socket.on('username', function(usr){
                 username = usr;
-                $("#header").append("<p>").text('Connected as ' + usr);
+                $("#header").append("<p>Connected as " + username + "</p>");
             });
             socket.on('chat message', function(msg){
                 if (msg.username == username) {
