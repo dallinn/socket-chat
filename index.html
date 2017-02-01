@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Socket.IO chat</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <form id="user" action="">
+            <input type="text" id="username" placeholder="Who are you?">
+            <input type="submit" value="Enter chat room">
+        </form>
+        <ul id="messages"></ul>
+        <form id="chat" action="" style="display:none">
+            <input id="m" autocomplete="off" /><button>Send</button>
+        </form>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+            var socket = io();
+            $('#user').submit(function(){
+                socket.emit('username', $('#username').val());
+                $('#username').val('');
+                $('#chat').fadeIn();
+                $(this).fadeOut();
+                return false;
+            });
+            $('#chat').submit(function(){
+                socket.emit('chat message', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
+            socket.on('chat message', function(msg){
+                $('#messages').append("<li><span>" + msg.username + ":</span> " + msg.message + "</li>");
+            });
+        </script>
+    </body>
+</html>
