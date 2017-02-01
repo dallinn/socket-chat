@@ -5,15 +5,18 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div class="header"></div>
+        <div id="header"></div>
         <form id="user" action="">
             <input type="text" id="username" placeholder="Who are you?" required>
             <input type="submit" value="Enter chat room">
         </form>
-        <ul id="messages"></ul>
-        <form id="chat" action="" style="display:none">
-            <input id="m" autocomplete="off" /><button>Send</button>
-        </form>
+        <div class="container" style="display:none">
+            <ul id="messages"></ul>
+            <button id="getClients">Get client list</button>
+            <form id="chat" action="">
+                <input id="m" autocomplete="off" /><button>Send</button>
+            </form>
+        </div>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
@@ -22,7 +25,7 @@
             $('#user').submit(function(){
                 socket.emit('username', $('#username').val());
                 $('#username').val('');
-                $('#chat').fadeIn();
+                $('.container').fadeIn();
                 $(this).fadeOut();
                 $('#m').focus();
                 return false;
@@ -32,8 +35,12 @@
                 $('#m').val('');
                 return false;
             });
+            $('#getClients').click(function(){
+                socket.emit('getClients');
+            });
             socket.on('username', function(usr){
                 username = usr;
+                $("#header").append("<p>").text('Connected as ' + usr);
             });
             socket.on('chat message', function(msg){
                 if (msg.username == username) {

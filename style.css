@@ -6,6 +6,10 @@
 body {
    font: 13px Helvetica, Arial;
 }
+#header {
+    text-align: right;
+    padding-right: 10px;
+}
 form#user {
     display: block;
     width: 300px;
