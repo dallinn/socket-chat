@@ -15,20 +15,21 @@
         <div class="container" style="display:none">
             <ul id="clients" style="display:none"></ul>
             <ul id="messages"></ul>
-            <form id="chat" action="">
-                <input id="m" autocomplete="off" /><button>Send</button>
-            </form>
         </div>
+        <form id="chat" action="">
+            <input id="m" autocomplete="off" required><button>Send</button>
+        </form>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             var socket = io();
             var username;
             $('#user').submit(function(){
-                socket.emit('username', $('#username').val());
-                $('#username').val('');
+                var un = $('#username').val();
+                socket.emit('username', un);
                 $('#header').fadeIn();
-                $(this).fadeOut();
+                $(this).empty().append("<p id='welcome'>Welcome, " + un + ".</p>").fadeOut();
+                $('#username').val('');
                 $('.container').fadeIn();
                 $('#m').focus();
                 return false;
@@ -52,7 +53,7 @@
             });
             socket.on('chat message', function(msg){
                 if (msg.username == username) {
-                    $('#messages').append("<li class='me'>" + msg.message + "</li>");
+                    $('#messages').append("<li class='me'><span>" + msg.username + ":</span>" + msg.message + "</li>");
                 } else {
                     $('#messages').append("<li><span>" + msg.username + ":</span> " + msg.message + "</li>");
                 }

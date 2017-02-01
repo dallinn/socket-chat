@@ -21,7 +21,6 @@ io.on('connection', function(socket){
         io.emit('chat message',{ message: msg, username: socket['username'] });
     });
     socket.on('getClients', function(){
-        console.log(clients);
         socket.emit('clients', clients);
     });
     socket.on('disconnect', function() {
